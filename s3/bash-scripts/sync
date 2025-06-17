@@ -1,1 +1,45 @@
 #!/usr/bin/env bash
+
+# when to sync objects
+echo "== sync"
+
+# Exit immediately if a command exits with a non-zero status
+set -e  
+
+#Check for bucket name 
+if [ -z "$1" ]; then
+  echo "There needs to be a bucket name eg.  ./bucket djibril-bucket-example"
+  exit 1
+fi
+
+#Check for filename prefix 
+if [ -z "$2" ]; then
+  echo "There needs to be a bucket name eg.  ./bucket djibril-bucket-example"
+  exit 1
+fi
+BUCKET_NAME=$1
+PREFIX_NAME=$2
+
+OUTPUT_DIR="/tmp/s3-bash-scripts"
+#remove folder if already exist
+rm -rf "$OUTPUT_DIR"    
+#lets create the output directory if it does not exist
+    if [ ! -d "$OUTPUT_DIR" ]; then
+        mkdir -p "$OUTPUT_DIR"
+    fi
+
+    # generate a random number
+    # to determine how many files to create 
+    NUM_FILES=$((RANDOM % 6 + 5)) # between 5 and 10 files
+    
+    for i in $(seq 1 $NUM_FILES); do
+        # create a file with random content
+        FILE_NAME="$OUTPUT_DIR/${FILENAME_PREFIX}_$i.txt"
+
+        dd if=/dev/urandom of="$FILE_NAME" bs=1024 count=$((RANDOM % 10 + 1)) status=none        
+        
+    done
+    ``
+tree "$OUTPUT_DIR"
+
+aws s3 sync "$OUTPUT_DIR" "s3://$BUCKET_NAME"

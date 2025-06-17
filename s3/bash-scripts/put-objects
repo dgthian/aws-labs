@@ -1,1 +1,33 @@
 #!/usr/bin/env bash
+
+# wher to put the objects
+echo "== put objects"
+
+# Check for bucket name
+# https://docs.aws.amazon.com/cli/latest/reference/s3api/put-object.html
+ 
+# Exit immediately if a command exits with a non-zero status
+set -e  
+
+OUTPUT_DIR="/tmp/s3-bash-scripts/put-objects"
+#remove folder if already exist
+rm -rf "$OUTPUT_DIR"    
+#lets create the output directory if it does not exist
+    if [ ! -d "$OUTPUT_DIR" ]; then
+        mkdir -p "$OUTPUT_DIR"
+    fi
+
+    # generate a random number
+    # to determine how many files to create 
+    NUM_FILES=$((RANDOM % 6 + 5)) # between 5 and 10 files
+    
+    for i in $(seq 1 $NUM_FILES); do
+        # create a file with random content
+        FILE_NAME="$OUTPUT_DIR/file-$i.txt"
+
+        dd if=/dev/urandom of="$FILE_NAME" bs=1024 count=$((RANDOM % 10 + 1)) status=none        
+        
+    done
+    ``
+tree "$OUTPUT_DIR"
+

@@ -1,12 +1,18 @@
 #!/usr/bin/env bash
+echo "== create bucket"
 
-# Check for bucket name 
-
+#Check for bucket name 
+# https://docs.aws.amazon.com/cli/latest/reference/s3api/create-bucket.html
 if [ -z "$1" ]; then
   echo "There needs to be a bucket name eg.  ./bucket djibril-bucket-example"
   exit 1
 fi
-BUCKET_NAME $1
+BUCKET_NAME=$1
 
-echo "aws s3api create-bucket  --bucket BUCKET_NAME"
-aws s3api create-bucket  --bucket BUCKET_NAME
+aws s3api create-bucket \
+  --bucket $BUCKET_NAME \
+  --region eu-west-1 \
+  --create-bucket-configuration LocationConstraint=eu-west-1 \
+  --query 'Location' \
+  --output text
+

@@ -1,15 +1,14 @@
 #!/usr/bin/env bash
-
-echo "== delete bucket"
+echo "== list objects"
 
 #Check for bucket name 
-# https://docs.aws.amazon.com/cli/latest/reference/s3api/delete-bucket.html
+# https://docs.aws.amazon.com/cli/latest/reference/s3api/list-objects-v2.html
 if [ -z "$1" ]; then
   echo "There needs to be a bucket name eg.  ./bucket djibril-bucket-example"
   exit 1
 fi
 BUCKET_NAME=$1
 
-aws s3api delete-bucket \
+aws s3api list-objects-v2 \
   --bucket $BUCKET_NAME
 

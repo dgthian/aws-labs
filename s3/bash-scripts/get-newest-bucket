@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+echo "== list newest bucket"
+
+#aws s3 ls  # List all S3 buckets in the account
+
+aws s3api list-buckets --output json | jq '.Buckets | sort_by(.CreationDate) | reverse | .[0] | .Name'
+
