@@ -1,0 +1,16 @@
+{
+   "Grants": [
+      {
+         "Grantee": {
+            "DisplayName": "thiandoum", 
+            "ID": "ANOTHER_ACCOUNT_ID",   
+            "Type": "CanonicalUser" 
+         },
+         "Permission": "FULL_CONTROL"
+      }
+   ],
+   "Owner": {
+      "DisplayName": "djibril",
+      "ID": "71281dbd6dc837a8f6f214f6f2135c34aaba8590a8eef6498517872968941d25"
+   }
+}
