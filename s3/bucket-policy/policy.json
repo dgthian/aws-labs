@@ -1,0 +1,12 @@
+{
+   "Statement": [
+      {
+         "Effect": "Allow",
+         "Principal": {
+            "AWS": "arn:aws:iam::816069170623:user/thiandoum"
+         },
+         "Action": ["s3:GetObject", "s3:ListBucket", "s3:PutObject"],
+         "Resource": ["arn:aws:s3:::bucket-policy-dgt-02062025", "arn:aws:s3:::bucket-policy-dgt-02062025/*"]
+      } 
+   ]
+}
