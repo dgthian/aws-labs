@@ -1,0 +1,14 @@
+{
+    "Role": "arn:aws:iam::816069170623:role/s3-replication-role",
+    "Rules": [
+        {
+            "Status": "Enabled",
+            "Priority": 1,
+            "DeleteMarkerReplication": { "Status": "Disabled" },
+            "Filter" : { "Prefix": ""},
+            "Destination": {
+                "Bucket": "arn:aws:s3:::replication-dgt-us-east-16072025"
+            }
+        }
+    ]
+}
