@@ -107,3 +107,6 @@ aws sts get-caller-identity
 #    "Account": "816069170623",
 #    "Arn": "arn:aws:iam::816069170623:root"
 #}
+
+# Use the root user to disable MFA Delete
+aws s3api put-bucket-versioning --bucket aws-s3-versioning-dgt-16072025 --versioning-configuration MFADelete=Disabled,Status=Enabled --mfa "arn:aws:iam::816069170623:mfa/AuthyRoot 386069"
