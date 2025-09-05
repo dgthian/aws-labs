@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+echo "== deploy web site hosting stack"
+
+aws cloudformation deploy \
+--template-file template.yaml \
+--stack-name eltisgroup \
+--no-execute-changeset

@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+echo "== upload web site hosting stack"
+
+aws s3 sync /Users/djibrilgueyethiandoum/Developements/workspace-aws/aws-labs/s3/web-site-hosting/eltisgroup/ s3://www.eltisgroup.com

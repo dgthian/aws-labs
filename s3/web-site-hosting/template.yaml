@@ -1,0 +1,63 @@
+# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-formats.html
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "Static Web Hosting for a Single Page Application (SPA) using S3 and CloudFront OAC"
+
+Parameters:
+  NakedDomainName:
+    Type: String
+    Description: "The domain name for the CloudFront distribution (e.g., www.example.com)"
+    Default: "eltisgroup.com"
+# www Bucket
+Resources:
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-s3-bucket.html
+  NakedBucket:
+    Type: 'AWS::S3::Bucket'
+    DeletionPolicy: Retain
+    Properties:
+      BucketName: !Ref NakedDomainName
+      WebsiteConfiguration: 
+      #https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-properties-s3-bucket-websiteconfiguration.html
+        RedirectAllRequestsTo:
+          HostName: !Sub "www.${NakedDomainName}.s3-website-${AWS::Region}.amazonaws.com"
+          
+  WWWBucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: !Sub "www.${NakedDomainName}"
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: index.html
+#https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-properties-s3-bucket-publicaccessblockconfiguration.html
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: false
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: false  
+# Static Web Hosting
+
+# Bucket Policy
+  BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref WWWBucket
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Action:
+              - 's3:GetObject'
+            Effect: Allow
+            Resource: !Sub "arn:aws:s3:::www.${NakedDomainName}/*"
+            Principal: '*'
+
+# CloudFormation Distribution
+
+## route the 403/404 to the SPA
+## OAC (Origin Access Control)  
+Outputs:
+  NakedBucketUrl:
+    Description: S3 static website for naked endpoint url
+    Value: !GetAtt NakedBucket.WebsiteURL
+  WWWBucketUrl:
+    Description: S3 static website for www endpoint url
+    Value: !GetAtt WWWBucket.WebsiteURL  
+     
