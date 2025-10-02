@@ -1,0 +1,21 @@
+{
+  "yaml.customTags": [
+  "!Equals sequence",
+  "!FindInMap sequence",
+  "!GetAtt",
+  "!GetAZs",
+  "!ImportValue",
+  "!Join sequence",
+  "!Ref",
+  "!Select sequence",
+  "!Split sequence",
+  "!Sub"
+  ],
+  
+  "yaml.schemas": {
+    "https://raw.githubusercontent.com/awslabs/goformation/master/schema/cloudformation.schema.json": [
+      "template.yaml",
+      "template.yml"
+    ]
+  }
+}
