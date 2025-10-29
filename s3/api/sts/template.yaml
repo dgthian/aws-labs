@@ -1,0 +1,57 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Create a role for us to assume and create a resource we'll have access
+Parameters:
+  BucketName:
+    Type: String
+    Description: The name of the S3 bucket to which this role will have access
+Resources:
+  S3Bucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: !Ref BucketName
+
+  StsRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: 'arn:aws:iam::816069170623:user/sts-machine-user'
+            Action: 'sts:AssumeRole'
+      Path: /
+      Policies:
+        - PolicyName: s3access
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: '*'
+                Resource:
+                  - !Sub 'arn:aws:s3:::${BucketName}'
+                  - !Sub 'arn:aws:s3:::${BucketName}/*'
+        - PolicyName: cloudformationaccess
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'cloudformation:DescribeStacks'
+                  - 'cloudformation:ListStacks'
+                  - 'cloudformation:DescribeStackResources'
+                  - 'cloudformation:DescribeStackEvents'
+                  - 'cloudformation:GetTemplate'
+                  - 'cloudformation:ListStackResources'
+                  - 'cloudformation:CreateStack'
+                  - 'cloudformation:UpdateStack'
+                  - 'cloudformation:DeleteStack'
+                  - 'cloudformation:ValidateTemplate'
+                  - 'cloudformation:ListTemplates'
+                  - 'cloudformation:ListChangeSets'
+                  - 'cloudformation:DescribeChangeSet'
+                  - 'cloudformation:ExecuteChangeSet'
+                  - 'cloudformation:DeleteChangeSet'
+                  - 'cloudformation:CreateChangeSet'
+                  
+                Resource: '*'

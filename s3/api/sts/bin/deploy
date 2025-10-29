@@ -1,0 +1,7 @@
+#!/usr/bin/env /bash
+
+aws cloudformation deploy \
+  --template-file ../template.yaml \
+  --stack-name new-stack-20102025 \
+  --parameter-overrides BucketName=my-bucket-name-20102025 \
+  --capabilities CAPABILITY_IAM
