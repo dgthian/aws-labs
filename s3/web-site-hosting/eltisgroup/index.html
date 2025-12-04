@@ -659,12 +659,16 @@
             };
 
             $scope.technologies = [
+                { name: 'Java', icon: 'fab fa-java' },
+                { name: 'AWS', icon: 'fab fa-aws' },
+                { name: 'Spring', icon: 'fas fa-leaf' },
                 { name: 'Angular', icon: 'fab fa-angular' },
                 { name: 'React', icon: 'fab fa-react' },
                 { name: 'Node.js', icon: 'fab fa-node-js' },
                 { name: 'Python', icon: 'fab fa-python' },
-                { name: 'AWS', icon: 'fab fa-aws' },
-                { name: 'Docker', icon: 'fab fa-docker' }
+                { name: 'Docker', icon: 'fab fa-docker' }, 
+                { name: 'Kubernetes', icon: 'fas fa-server' }
+
             ];
 
             $scope.contactForm = {
@@ -675,7 +679,7 @@
             };
 
             $scope.selectService = function(service) {
-                alert('Service sélectionné: ' + service.title + '\n\n' + service.description);
+                //alert('Service sélectionné: ' + service.title + '\n\n' + service.description);
             };
 
             $scope.submitForm = function() {
