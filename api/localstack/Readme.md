@@ -20,4 +20,4 @@ export AWS_ENDPOINT_URL=http://localhost:4566
 ## Lis env Vars
 ```sh
 env | grep AWS_ENDPOINT
-````
+```
