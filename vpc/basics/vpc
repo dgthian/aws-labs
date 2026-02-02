@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+## Create our vpc
+VPC_ID=$(aws ec2 create-vpc \
+--cidr-block "172.1.0.0/16" \
+--region eu-west-1 \
+--tag-specifications 'ResourceType=vpc,Tags=[{Key=Name,Value=MyVPC}]' \
+--query 'Vpc.VpcId' \
+--output text)
+
+echo "Created VPC with ID: $VPC_ID"
+
+## Delete VPC
+aws ec2 delete-vpc --vpc-id vpc-039458c572398cb3c
+aws ec2 delete-vpc --vpc-id vpc-03d3543f2f295ea90
+aws ec2 delete-vpc --vpc-id vpc-08dbc96ce66ab32d7
+aws ec2 delete-vpc --vpc-id vpc-0db03b31962cd809c
+aws ec2 delete-vpc --vpc-id vpc-0050ac6150d8ac55c
+aws ec2 delete-vpc --vpc-id vpc-014aeb233782475d8
+aws ec2 delete-vpc --vpc-id vpc-0b104040805fc1b9d
+
+
+
+## Create an IGW
+IGW_ID=$(aws ec2 create-internet-gateway \
+--tag-specifications 'ResourceType=internet-gateway,Tags=[{Key=Name,Value=MyIGW}]' \
+--query 'InternetGateway.InternetGatewayId' \
+--output text)
+echo "Created Internet Gateway with ID: $IGW_ID"
+
+## Attach the IGW to our VPC
+aws ec2 attach-internet-gateway \
+--internet-gateway-id $IGW_ID \
+--vpc-id $VPC_ID
+
+## Create a Public Subnet
+aws ec2 create-subnet \
+--vpc-id $VPC_ID \
+--cidr-block ${CIDR_BLOCK::-4}0/24 \
+--tag-specifications 'ResourceType=subnet,Tags=[{Key=Name,Value=MyPublicSubnet}]'
+
+## Create a Private Subnet
+aws ec2 create-subnet --vpc-id vpc-xxxxxxxx --cidr-block
+
+## Create a Route Table
+aws ec2 create-route-table --vpc-id vpc-xxxxxxxx
+
+## Delete Route Table
+aws ec2 delete-route-table --route-table-id rtb-xxxxxxxx
+
+
