@@ -1,0 +1,31 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Lambda Python inline code example
+
+Resources:
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+
+  InlinePythonLambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: inline-python-lambda
+      Runtime: python3.11
+      Handler: index.lambda_handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Timeout: 10
+      MemorySize: 128
+      Code:
+        ZipFile: |
+          def lambda_handler(event, context):
+              return {
+                  "statusCode": 200,
+                  "body": "Hello from inline Lambda 🚀"
+              }
