@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Force LocalStack
+export AWS_ACCESS_KEY_ID=test
+export AWS_SECRET_ACCESS_KEY=test
+export AWS_DEFAULT_REGION=us-east-1
+export AWS_ENDPOINT_URL=http://localhost:4566
+
+set -e
+
+TOPIC_ARN="arn:aws:sns:us-east-1:000000000000:my-sns-topic"
+aws sns publish \
+    --topic-arn "$TOPIC_ARN" \
+    --message-structure json \
+    --message '{
+        "default": "{\"firstname\": \"Djibril\", \"lastname\": \"Thiandoum\", \"email\": \"djibril.thiandoum@example.com\"}"
+    }'

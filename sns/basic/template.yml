@@ -1,0 +1,30 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Sns Basic
+
+
+Resources:
+  SnsTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: my-sns-topic
+  
+  Lambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.lambda_handler
+      FunctionName: sns-lambda-function
+      Runtime: python3.11
+      PackageType: Zip
+      InlineCode: |
+        def lambda_handler(event, context):
+            print("Received event: " + str(event))
+            return {
+                "statusCode": 200,
+                "body": "Hello from SNS Lambda 🚀"
+            }
+      Events:
+        SnsEvent:
+          Type: SNS
+          Properties:
+            Topic: !Ref SnsTopic
